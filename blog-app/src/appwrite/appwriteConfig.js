@@ -79,6 +79,31 @@ export class Service{
             return false
         }
     }
+
+    async uploadFile(file){
+        try {
+            return await this.storage.createFile(
+                config.appwriteBucketId,
+                ID.unique(),
+                file
+            )
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getPosts(queries = [Query.equal("status","true")]){
+        try {
+            return await this.databases.listDocuments(
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
+                queries
+            )
+        } catch (error) {
+            throw error
+            return false
+        }
+    }
 }
 
 const service = new Service()
