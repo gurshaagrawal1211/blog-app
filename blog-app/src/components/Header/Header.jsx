@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux'
 const Header = () => {
 
   const authStatus = useSelector((state) => state.auth.status)
+  //console.log(authStatus)
 
   const navigate = useNavigate()
 
@@ -13,7 +14,7 @@ const Header = () => {
     {
       name: "Home",
       slug: "/",
-      active: "true"
+      active: true
     },
     {
       name: "Login",

@@ -19,6 +19,8 @@ export default function PostForm({ post }) {
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
+
+        console.log('Submit function called with data:', data);
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
@@ -41,7 +43,7 @@ export default function PostForm({ post }) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
                 const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
-
+                console.log(userData.$id)
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }

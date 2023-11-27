@@ -1,11 +1,11 @@
 import config from "../config/config";
 
-import {Client, Account, ID, Databases, Storage, Query} from "appwrite"
+import {Client, ID, Databases, Storage, Query} from "appwrite"
 
 export class Service{
     client = new Client() 
-    databases
-    storage
+    databases;
+    storage;
 
     constructor() {
         this.client
@@ -18,6 +18,7 @@ export class Service{
     // post methods
     async createPost({title, slug, content, featuredImage, status, userId}){
         try {
+            console.log(featuredImage)
             return await this.databases.createDocument(
                 config.appwriteDatabaseId,
                 config.appwriteCollectionId,
@@ -25,13 +26,14 @@ export class Service{
                 {
                     title,
                     content,
-                    featuredImage,
+                    'featured-Image': featuredImage,
                     status,
-                    userId
+                    'userID':userId
                 }
             )
         } catch (error) {
-            throw error
+            console.error("Error creating post:", error);
+            throw error;
         }
     }
 
@@ -70,7 +72,7 @@ export class Service{
 
     async getPost(slug){
         try {
-            return await this.databases(
+            return await this.databases.getDocument(
                 config.appwriteDatabaseId,
                 config.appwriteCollectionId,
                 slug
@@ -86,7 +88,7 @@ export class Service{
             return await this.databases.listDocuments(
                 config.appwriteDatabaseId,
                 config.appwriteCollectionId,
-                queries
+                queries,
             )
         } catch (error) {
             throw error
@@ -109,11 +111,11 @@ export class Service{
         }
     }
     
-    async deleteFile(fileTd){
+    async deleteFile(fileId){
         try {
             await this.storage.deleteFile(
                 config.appwriteBucketId,
-                fileTd
+                fileId
             )
             return true
         } catch (error) {
@@ -122,11 +124,13 @@ export class Service{
         }
     }
 
-    getFilePreview(fileTd){
-        return this.storage.getFilePreview(
+    getFilePreview(fileId){
+        console.log(fileId)
+            return this.storage.getFilePreview(
             config.appwriteBucketId,
-            fileTd
-        )
+             fileId,
+            )
+        
     }
 
    

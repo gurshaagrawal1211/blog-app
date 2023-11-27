@@ -2,7 +2,7 @@ import React from 'react'
 
 const Button = ({
     children,
-    type = 'button',
+    type = 'submit',
     bgColor = 'bg-blue-600',
     textColor = 'text-white',
     className = '',
