@@ -12,36 +12,44 @@ export default function Post() {
 
     const userData = useSelector((state) => state.auth.userData);
 
-    const isAuthor = post && userData ? post.userId === userData.$id : false;
+    const isAuthor = post && userData ? post.userID === userData.$id : false;
 
     useEffect(() => {
         if (slug) {
             appwriteService.getPost(slug).then((post) => {
-                if (post) setPost(post);
+                if (post){
+                    setPost(post);
+                } 
                 else navigate("/");
             });
         } else navigate("/");
+
+       
     }, [slug, navigate]);
 
     const deletePost = () => {
+        
         appwriteService.deletePost(post.$id).then((status) => {
             if (status) {
                 appwriteService.deleteFile(post.featuredImage);
-                navigate("/");
+                navigate("/all-posts");
             }
         });
     };
+ //console.log(post.title)
 
     return post ? (
+        
         <div className="py-8">
+        {/* <div>{post.featuredImage}</div> */}
             <Container>
-                <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
+                <div className="w-1/2 h-60 flex justify-center ml-80 mb-4 relative rounded-xl p-2">
                     <img
-                        src={appwriteService.getFilePreview(post.featuredImage)}
+                        src={appwriteService.getFilePreview(post['featured-Image'])}
                         alt={post.title}
-                        className="rounded-xl"
+                        className="rounded-xl w-"
                     />
-
+                   
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
                             <Link to={`/edit-post/${post.$id}`}>

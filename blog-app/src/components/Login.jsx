@@ -13,11 +13,11 @@ const Login = () => {
     const [error, setError] = useState("")
 
     const login = async(data) => {
+        console.log(data)
         setError("")
         try {
             const session =  await authService.login(data)
             if(session){
-                console.log("fghjkl")
                 const userData = await authService.getCurrentUser()
                 if(userData) dispatch(authLogin(userData))
                 navigate("/")
@@ -58,7 +58,7 @@ const Login = () => {
                 {...register("email", {
                     required: true,
                     validate: {
-                        matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                        matchPattern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                         "Email address must be a valid address",
                     }
                 })}

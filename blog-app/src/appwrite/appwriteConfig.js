@@ -125,10 +125,12 @@ export class Service{
     }
 
     getFilePreview(fileId){
-        console.log(fileId)
+        //console.log(fileId)
+        const encodedFileId = (encodeURIComponent(fileId))
+        //console.log(encodedFileId)
             return this.storage.getFilePreview(
             config.appwriteBucketId,
-             fileId,
+            encodedFileId
             )
         
     }
